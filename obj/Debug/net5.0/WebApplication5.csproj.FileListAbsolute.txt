@@ -1,0 +1,86 @@
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\bin\Debug\net5.0\appsettings.Development.json
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\bin\Debug\net5.0\appsettings.json
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\bin\Debug\net5.0\WebApplication5.exe
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\bin\Debug\net5.0\WebApplication5.deps.json
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\bin\Debug\net5.0\WebApplication5.runtimeconfig.json
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\bin\Debug\net5.0\WebApplication5.runtimeconfig.dev.json
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\bin\Debug\net5.0\WebApplication5.dll
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\bin\Debug\net5.0\ref\WebApplication5.dll
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\bin\Debug\net5.0\WebApplication5.pdb
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\bin\Debug\net5.0\WebApplication5.Views.dll
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\bin\Debug\net5.0\WebApplication5.Views.pdb
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\WebApplication5.csproj.AssemblyReference.cache
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\WebApplication5.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\WebApplication5.AssemblyInfoInputs.cache
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\WebApplication5.AssemblyInfo.cs
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\WebApplication5.csproj.CoreCompileInputs.cache
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\WebApplication5.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\WebApplication5.RazorAssemblyInfo.cache
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\WebApplication5.RazorAssemblyInfo.cs
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\staticwebassets\WebApplication5.StaticWebAssets.Manifest.cache
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\staticwebassets\WebApplication5.StaticWebAssets.xml
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\scopedcss\bundle\WebApplication5.styles.css
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\WebApplication5.TagHelpers.input.cache
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\WebApplication5.TagHelpers.output.cache
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\WebApplication5.RazorCoreGenerate.cache
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\Razor\Views\Home\Index.cshtml.g.cs
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\Razor\Views\Home\Privacy.cshtml.g.cs
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\Razor\Views\Shared\Error.cshtml.g.cs
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\Razor\Views\Shared\_Layout.cshtml.g.cs
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\Razor\Views\_ViewImports.cshtml.g.cs
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\Razor\Views\_ViewStart.cshtml.g.cs
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\WebApplication5.RazorTargetAssemblyInfo.cache
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\WebApplication5.RazorTargetAssemblyInfo.cs
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\WebApplication5.Views.pdb
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\WebApplication5.dll
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\ref\WebApplication5.dll
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\WebApplication5.pdb
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\WebApplication5.genruntimeconfig.cache
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\WebApplication5.csproj.CopyComplete
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\Razor\Views\Login\Index.cshtml.g.cs
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\Razor\Views\Login\UserLogin.cshtml.g.cs
+C:\Users\The Criterion\source\repos\WebApplication5\WebApplication5\obj\Debug\net5.0\Razor\Views\Login\Index2.cshtml.g.cs
+F:\NetCuisine\NetCuisine\WebApplication5\bin\Debug\net5.0\appsettings.Development.json
+F:\NetCuisine\NetCuisine\WebApplication5\bin\Debug\net5.0\appsettings.json
+F:\NetCuisine\NetCuisine\WebApplication5\bin\Debug\net5.0\WebApplication5.StaticWebAssets.xml
+F:\NetCuisine\NetCuisine\WebApplication5\bin\Debug\net5.0\WebApplication5.exe
+F:\NetCuisine\NetCuisine\WebApplication5\bin\Debug\net5.0\WebApplication5.deps.json
+F:\NetCuisine\NetCuisine\WebApplication5\bin\Debug\net5.0\WebApplication5.runtimeconfig.json
+F:\NetCuisine\NetCuisine\WebApplication5\bin\Debug\net5.0\WebApplication5.runtimeconfig.dev.json
+F:\NetCuisine\NetCuisine\WebApplication5\bin\Debug\net5.0\WebApplication5.dll
+F:\NetCuisine\NetCuisine\WebApplication5\bin\Debug\net5.0\WebApplication5.pdb
+F:\NetCuisine\NetCuisine\WebApplication5\bin\Debug\net5.0\WebApplication5.Views.dll
+F:\NetCuisine\NetCuisine\WebApplication5\bin\Debug\net5.0\WebApplication5.Views.pdb
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\WebApplication5.csproj.AssemblyReference.cache
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\WebApplication5.GeneratedMSBuildEditorConfig.editorconfig
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\WebApplication5.AssemblyInfoInputs.cache
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\WebApplication5.AssemblyInfo.cs
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\WebApplication5.csproj.CoreCompileInputs.cache
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\WebApplication5.MvcApplicationPartsAssemblyInfo.cache
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\WebApplication5.RazorAssemblyInfo.cache
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\WebApplication5.RazorAssemblyInfo.cs
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\scopedcss\bundle\WebApplication5.styles.css
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\staticwebassets\WebApplication5.StaticWebAssets.Manifest.cache
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\WebApplication5.TagHelpers.input.cache
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\WebApplication5.TagHelpers.output.cache
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\WebApplication5.RazorCoreGenerate.cache
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\Razor\Views\Home\Index.cshtml.g.cs
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\Razor\Views\Home\Privacy.cshtml.g.cs
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\Razor\Views\Login\Index.cshtml.g.cs
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\Razor\Views\Login\Index2.cshtml.g.cs
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\Razor\Views\Login\UserLogin.cshtml.g.cs
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\Razor\Views\Shared\Error.cshtml.g.cs
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\Razor\Views\Shared\_Layout.cshtml.g.cs
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\Razor\Views\_ViewImports.cshtml.g.cs
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\Razor\Views\_ViewStart.cshtml.g.cs
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\WebApplication5.RazorTargetAssemblyInfo.cache
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\WebApplication5.RazorTargetAssemblyInfo.cs
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\WebApplication5.Views.pdb
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\WebApplication5.dll
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\refint\WebApplication5.dll
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\WebApplication5.pdb
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\WebApplication5.genruntimeconfig.cache
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\ref\WebApplication5.dll
+F:\NetCuisine\NetCuisine\WebApplication5\obj\Debug\net5.0\WebApplication5.csproj.CopyComplete
