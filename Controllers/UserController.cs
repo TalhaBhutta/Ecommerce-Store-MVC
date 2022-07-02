@@ -1,10 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NetCuisine.DataBase;
 using NetCuisine.Models;
 
 namespace NetCuisine.Controllers
 {
+    [Route("{controller}/{action}")]
     public class UserController : Controller
     {
+        private readonly ApplicationDbContext _signUpContext;
+
+        public UserController(ApplicationDbContext context)
+        {
+            _signUpContext = context;
+        }
         public IActionResult Index()
         {
             return View();
@@ -18,7 +26,10 @@ namespace NetCuisine.Controllers
         [HttpPost]
         public IActionResult CreateSignUp(SignUpModel signUpModel)
         {
-            return View();
+            _signUpContext.Add(signUpModel);
+            _signUpContext.SaveChanges();
+
+            return Content("Data Added Successfully!");
         }
     }
 }
