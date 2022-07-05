@@ -10,7 +10,7 @@
 
 <h2>Login Form</h2>
 
-<form action="userLogin" method="post">
+@*<form action="userLogin" method="post">
     <label for="lblname">ID</label><br>
     <input type="text" class="form-control" id="txtID" name="Id" value=""><br>
     <label for="lblname">User Name</label><br>
@@ -18,4 +18,31 @@
     <label for="lname">Password:</label><br>
     <input class="form-control" type="password" id="txtPass" name="password" value=""><br><br>
     <input class="btn btn-primary" type="submit" value="Submit">
-</form>
+</form>*@
+<div class="page-content">
+    <div class="form-v5-content">
+        <form class="form-detail" action="CreateLogin" method="post">
+            <h2>NetCuisine Log-In</h2>
+            <div class="form-row">
+                <label for="Id">ID</label><br>
+                <input type="number" name="Id" id="Id" class="input-text" placeholder="Your Id" required>
+                <i class="fas fa-lock"></i>
+            </div>
+            <div class="form-row">
+                <label for="FullName">User Name</label>
+                <input type="text" name="FullName" id="FullName" class="input-text" placeholder="Your Name" required>
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="form-row">
+                <label for="Password">Password</label>
+                <input type="password" name="Password" id="Password" class="input-text" placeholder="Your Password" required>
+                <i class="fas fa-lock"></i>
+            </div>
+            <div class="form-row-last">
+                <input type="submit" name="Log in" class="" value="Log in">
+            </div>
+
+            @*<input type="hidden" name="Id" id="Id" />*@
+        </form>
+    </div>
+</div>
