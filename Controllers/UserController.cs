@@ -25,7 +25,7 @@ namespace NetCuisine.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateSignUp(SignUpModel signUpModel)
+        public IActionResult SignUp(SignUpModel signUpModel)
         {
             _signUpContext.Add(signUpModel);
             _signUpContext.SaveChanges();
