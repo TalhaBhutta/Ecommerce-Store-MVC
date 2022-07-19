@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetCuisine.DataBase;
 
 namespace NetCuisine.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220719164904_ProductCategory")]
+    partial class ProductCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,35 +41,6 @@ namespace NetCuisine.Migrations
                     b.ToTable("ProductCategory");
                 });
 
-            modelBuilder.Entity("NetCuisine.Models.ProductModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Picture")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("ProductCategoryID")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductCategoryID");
-
-                    b.ToTable("Product");
-                });
-
             modelBuilder.Entity("NetCuisine.Models.SignUpModel", b =>
                 {
                     b.Property<int>("Id")
@@ -90,17 +63,6 @@ namespace NetCuisine.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("signUp");
-                });
-
-            modelBuilder.Entity("NetCuisine.Models.ProductModel", b =>
-                {
-                    b.HasOne("NetCuisine.Models.ProductCategoryModel", "ProductCategory")
-                        .WithMany()
-                        .HasForeignKey("ProductCategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ProductCategory");
                 });
 #pragma warning restore 612, 618
         }

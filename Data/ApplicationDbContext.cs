@@ -12,6 +12,9 @@ namespace NetCuisine.DataBase
 
         }
 
-        public DbSet<SignUpModel> signUp { get; set; }                
+        public DbSet<SignUpModel> signUp { get; set; }
+        public DbSet<ProductCategoryModel> ProductCategory { get; set; }
+        public DbSet<ProductModel> Product { get; set; }
+
     }
 }
