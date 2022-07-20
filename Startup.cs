@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using NetCuisine.DataBase;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,20 +27,24 @@ namespace WebApplication5
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-    //        services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
-    //Configuration.GetConnectionString("DefaultConnection")
-    //));
+            //        services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
+            //Configuration.GetConnectionString("DefaultConnection")
+            //));
 
+            services.AddSingleton<IFileProvider>(
+           new PhysicalFileProvider(
+               Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
 
+            services.AddMvc();
             //Add services to the container.
-           var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
-
+           
             //        services.AddDbContext<ApplicationDbContext>(options =>
             //options.UseSqlServer("DefaultConnection"));
-
-            services.AddControllersWithViews();
+            
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
 
 
@@ -56,12 +62,15 @@ namespace WebApplication5
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseAuthorization();
+            //app.UseMvcWithDefaultRoute(
+            //    )
 
             app.UseEndpoints(endpoints =>
             {

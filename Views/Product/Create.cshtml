@@ -3,18 +3,26 @@
 @{
     ViewData["Title"] = "Create";
 }
+<script>
+    var loadFile = function(event) {
+        var output = document.getElementById('output');
+        output.src = URL.createObjectURL(event.target.files[0]);
+        output.onload = function() {
+            URL.revokeObjectURL(output.src) // free memory
+        }
+    };
+</script>
 
-<h1>Create</h1>
-
-<h4>ProductModel</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
+    <div class="col-md-4 container">
+        <h1>Create</h1>
+        <h4>ProductModel</h4>
+        <hr />
+        <form asp-action="Create" enctype="multipart/form-data" asp-controller="Product">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="ProductCategoryID" class="control-label"></label>
-                <select asp-for="ProductCategoryID" class ="form-control" asp-items="ViewBag.ProductCategoryID"></select>
+                <select asp-for="ProductCategoryID" class="form-control" asp-items="ViewBag.ProductCategoryID"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -31,22 +39,26 @@
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group fullwidthsss radio uploadphoto">
                 <label asp-for="Picture" class="control-label"></label>
-                <input asp-for="Picture" class="form-control" />
+                <img style="height:auto" id="output" class="form-control" placeholder="Upload Photo" />
+                <input type="file" name="formFile" accept="image/*" onchange="loadFile(event)">
                 <span asp-validation-for="Picture" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

@@ -24,6 +24,23 @@ a {
   border-color: #1861ac;
 }
 
+
+.uploadphoto .form-control {
+    text-align: center;
+}
+
+.formmiddle .idproof .form-control, .uploadphoto .form-control {
+    height: 200px;
+}
+
+.uploadphoto input[type="file"] {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    opacity: 0;
+    width: 100%;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {

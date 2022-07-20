@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -61,6 +63,28 @@ namespace NetCuisine.Controllers
         {
             if (ModelState.IsValid)
             {
+                var files = HttpContext.Request.Form.Files;
+                foreach (var Image in files)
+                {
+                    if (Image != null && Image.Length > 0)
+                    {
+                        var file = Image;
+                        if (file != null)
+                        {
+                            //Set Key Name
+                           var PictureName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                            //Get url To Save
+                            string SavePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploadsPic", PictureName);
+
+                            using (var stream = new FileStream(SavePath, FileMode.Create))
+                            {
+                                file.CopyTo(stream);
+                                productModel.Picture = PictureName;
+                            }
+                        }
+                    }
+                }
+              
                 _context.Add(productModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -68,6 +92,7 @@ namespace NetCuisine.Controllers
             ViewData["ProductCategoryID"] = new SelectList(_context.ProductCategory, "Id", "Id", productModel.ProductCategoryID);
             return View(productModel);
         }
+
 
         // GET: Product/Edit/5
         public async Task<IActionResult> Edit(int? id)
