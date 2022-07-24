@@ -2,3 +2,6 @@ bin
 obj
 .vs
 appsettings.json
+appsettings.json
+NetCuisine.csproj
+NetCuisine.csproj.user
