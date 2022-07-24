@@ -69,22 +69,21 @@ namespace NetCuisine.Controllers
                     if (Image != null && Image.Length > 0)
                     {
                         var file = Image;
-                        if (file != null)
-                        {
-                            //Set Key Name
-                           var PictureName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                            //Get url To Save
-                            string SavePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploadsPic", PictureName);
 
-                            using (var stream = new FileStream(SavePath, FileMode.Create))
-                            {
-                                file.CopyTo(stream);
-                                productModel.Picture = PictureName;
-                            }
+                        //Set Key Name
+                        var PictureName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                        //Get url To Save
+                        string SavePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploadsPic", PictureName);
+
+                        using (var stream = new FileStream(SavePath, FileMode.Create))
+                        {
+                            file.CopyTo(stream);
+                            productModel.Picture = PictureName;
                         }
+
                     }
                 }
-              
+
                 _context.Add(productModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -107,6 +106,8 @@ namespace NetCuisine.Controllers
             {
                 return NotFound();
             }
+
+
             ViewData["ProductCategoryID"] = new SelectList(_context.ProductCategory, "Id", "Id", productModel.ProductCategoryID);
             return View(productModel);
         }
@@ -127,6 +128,30 @@ namespace NetCuisine.Controllers
             {
                 try
                 {
+                    if (productModel.Picture != "" || productModel.Picture != null)
+                    {
+                        var files = HttpContext.Request.Form.Files;
+                        foreach (var Image in files)
+                        {
+                            if (Image != null && Image.Length > 0)
+                            {
+                                var file = Image;
+
+                                //Set Key Name
+                                var PictureName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                                //Get url To Save
+                                string SavePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploadsPic", PictureName);
+
+                                using (var stream = new FileStream(SavePath, FileMode.Create))
+                                {
+                                    file.CopyTo(stream);
+                                    productModel.Picture = PictureName;
+                                }
+
+                            }
+                        }
+                    }
+
                     _context.Update(productModel);
                     await _context.SaveChangesAsync();
                 }
