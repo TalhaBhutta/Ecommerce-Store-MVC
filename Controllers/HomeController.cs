@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using NetCuisine.DataBase;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,14 +15,18 @@ namespace WebApplication5.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ApplicationDbContext _context;
+
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+        public async Task <IActionResult> Index()
         {
-            return View();
+            var applicationDbContext = _context.Product.Include(p => p.ProductCategory);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         public IActionResult Privacy()
