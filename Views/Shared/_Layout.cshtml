@@ -23,12 +23,9 @@
 <body>
     @if(User.IsInRole("Admin"))
     {
-        <h2>Lull</h2>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Administration</a>  
     }
-    else
-    {
-        <h2>Full</h2>
-    }
+    
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">

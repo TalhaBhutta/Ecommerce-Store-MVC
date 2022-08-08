@@ -16,8 +16,5 @@ namespace NetCuisine.Areas.Identity.Data
         [Column(TypeName = "nvarchar(100)")]
         public string Role { get; set; }
 
-        [PersonalData]
-        [Column(TypeName = "nvarchar(200)")]
-        public string Name { get; set; }
     }
 }

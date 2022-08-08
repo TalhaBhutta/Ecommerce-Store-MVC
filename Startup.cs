@@ -39,7 +39,7 @@ namespace WebApplication5
 
             services.AddMvc();
             //Add services to the container.
-            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            var connectionString = Configuration.GetConnectionString("NetCuisineContextConnection");
             services.AddDbContext<NetCuisineContext>(options =>
                 options.UseSqlServer(connectionString));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
