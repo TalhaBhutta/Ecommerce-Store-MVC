@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using NetCuisine.Areas.Identity.Data
+
+@inject SignInManager<NetCuisineUser> SignInManager
+@inject UserManager<NetCuisineUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -15,6 +21,14 @@
     <link rel="stylesheet" href="assets/css/owl.css">
 </head>
 <body>
+    @if(User.IsInRole("Admin"))
+    {
+        <h2>Lull</h2>
+    }
+    else
+    {
+        <h2>Full</h2>
+    }
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
@@ -30,17 +44,21 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Cart</a>
+                        </li>
+                        <li class="nav-item">  
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="Index">Role</a>  
                         </li>
                     </ul>
-                    <ul class="navbar-nav float-left">
+                 @*   <ul class="navbar-nav float-left">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Login</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Signup">Sign Up</a>
                         </li>
-                    </ul>
+                    </ul>*@
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>

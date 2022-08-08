@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NetCuisine.DataBase;
+using NetCuisine.Data;
 using NetCuisine.Models;
 using System.Linq;
 
@@ -8,9 +8,9 @@ namespace NetCuisine.Controllers
     [Route("{controller}/{action}")]
     public class UserController : Controller
     {
-        private readonly ApplicationDbContext _signUpContext;
+        private readonly NetCuisineContext _signUpContext;
 
-        public UserController(ApplicationDbContext context)
+        public UserController(NetCuisineContext context)
         {
             _signUpContext = context;
         }

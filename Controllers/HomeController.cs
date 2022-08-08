@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using NetCuisine.DataBase;
+using NetCuisine.Data;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,9 +15,9 @@ namespace WebApplication5.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        private readonly ApplicationDbContext _context;
+        private readonly NetCuisineContext _context;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+        public HomeController(ILogger<HomeController> logger, NetCuisineContext context)
         {
             _logger = logger;
             _context = context;
@@ -25,14 +25,10 @@ namespace WebApplication5.Controllers
 
         public async Task <IActionResult> Index()
         {
-            var applicationDbContext = _context.Product.Include(p => p.ProductCategory);
-            return View(await applicationDbContext.ToListAsync());
+            var NetCuisineContext = _context.Product.Include(p => p.ProductCategory);
+            return View(await NetCuisineContext.ToListAsync());
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -1,12 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
-using NetCuisine.DataBase;
+using NetCuisine.Data;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,10 +29,10 @@ namespace WebApplication5
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //        services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
+            //        services.AddDbContext<NetCuisineContext>(options => options.UseSqlServer(
             //Configuration.GetConnectionString("DefaultConnection")
             //));
-
+            services.AddRazorPages();
             services.AddSingleton<IFileProvider>(
            new PhysicalFileProvider(
                Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
@@ -38,12 +40,13 @@ namespace WebApplication5
             services.AddMvc();
             //Add services to the container.
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<NetCuisineContext>(options =>
                 options.UseSqlServer(connectionString));
-           
-            //        services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            //        services.AddDbContext<NetCuisineContext>(options =>
             //options.UseSqlServer("DefaultConnection"));
-            
+
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
 
@@ -67,7 +70,7 @@ namespace WebApplication5
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
             //app.UseMvcWithDefaultRoute(
             //    )
@@ -77,6 +80,7 @@ namespace WebApplication5
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }
