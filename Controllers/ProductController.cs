@@ -3,20 +3,22 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using NetCuisine.DataBase;
+using NetCuisine.Data;
 using NetCuisine.Models;
 
 namespace NetCuisine.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProductController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly NetCuisineContext _context;
 
-        public ProductController(ApplicationDbContext context)
+        public ProductController(NetCuisineContext context)
         {
             _context = context;
         }
@@ -24,8 +26,8 @@ namespace NetCuisine.Controllers
         // GET: Product
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Product.Include(p => p.ProductCategory);
-            return View(await applicationDbContext.ToListAsync());
+            var NetCuisineContext = _context.Product.Include(p => p.ProductCategory);
+            return View(await NetCuisineContext.ToListAsync());
         }
 
         // GET: Product/Details/5

@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using NetCuisine.DataBase;
+using NetCuisine.Data;
 using NetCuisine.Models;
 
 namespace NetCuisine.Controllers
 {
     public class ProductCategoryController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly NetCuisineContext _context;
 
-        public ProductCategoryController(ApplicationDbContext context)
+        public ProductCategoryController(NetCuisineContext context)
         {
             _context = context;
         }

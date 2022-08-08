@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using NetCuisine.DataBase;
+using NetCuisine.Data;
 
 namespace NetCuisine.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(NetCuisineContext))]
     [Migration("20220719181027_MProducts")]
     partial class MProducts
     {
