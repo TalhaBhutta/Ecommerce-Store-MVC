@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NetCuisine.Data;
+using NetCuisine.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -25,10 +26,41 @@ namespace WebApplication5.Controllers
 
         public async Task <IActionResult> Index()
         {
-            var NetCuisineContext = _context.Product.Include(p => p.ProductCategory);
-            return View(await NetCuisineContext.ToListAsync());
+            ProductViewModel productViewModel = new ProductViewModel();
+
+            productViewModel.Categories = await _context.ProductCategory.ToListAsync();
+            productViewModel.Products = await _context.Product.ToListAsync();
+
+            return View(productViewModel);
         }
 
+        public async Task<IActionResult> Menu()
+        {
+            ProductViewModel productViewModel = new ProductViewModel();
+
+            productViewModel.Categories = await _context.ProductCategory.ToListAsync();
+            productViewModel.Products = await _context.Product.ToListAsync();
+
+            return View(productViewModel);
+        }
+
+        public async Task<IActionResult> ProductDetail(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var productModel = await _context.Product
+                .Include(p => p.ProductCategory)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (productModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(productModel);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
+using NetCuisine.Models;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -6,11 +8,7 @@ namespace NetCuisine.ViewModels
 {
     public class ProductViewModel
     {
-        public int Id { get; set; }
-        public int ProductCategoryID { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public decimal Price { get; set; }
-        public IFormFile ProfileImage { get; set; }
+        public List<ProductModel> Products { get; set; }
+        public List<ProductCategoryModel> Categories { get; set; }
     }
 }

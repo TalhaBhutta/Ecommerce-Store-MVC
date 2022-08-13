@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -59,6 +60,27 @@ namespace NetCuisine.Controllers
         {
             if (ModelState.IsValid)
             {
+                var files = HttpContext.Request.Form.Files;
+                foreach (var Image in files)
+                {
+                    if (Image != null && Image.Length > 0)
+                    {
+                        var file = Image;
+
+                        //Set Key Name
+                        var PictureName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                        //Get url To Save
+                        string SavePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploadsPic", PictureName);
+
+                        using (var stream = new FileStream(SavePath, FileMode.Create))
+                        {
+                            file.CopyTo(stream);
+                            productCategoryModel.Picture = PictureName;
+                        }
+
+                    }
+                }
+
                 _context.Add(productCategoryModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -98,6 +120,30 @@ namespace NetCuisine.Controllers
             {
                 try
                 {
+                    if (productCategoryModel.Picture != "" || productCategoryModel.Picture != null)
+                    {
+                        var files = HttpContext.Request.Form.Files;
+                        foreach (var Image in files)
+                        {
+                            if (Image != null && Image.Length > 0)
+                            {
+                                var file = Image;
+
+                                //Set Key Name
+                                var PictureName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                                //Get url To Save
+                                string SavePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploadsPic", PictureName);
+
+                                using (var stream = new FileStream(SavePath, FileMode.Create))
+                                {
+                                    file.CopyTo(stream);
+                                    productCategoryModel.Picture = PictureName;
+                                }
+
+                            }
+                        }
+                    }
+
                     _context.Update(productCategoryModel);
                     await _context.SaveChangesAsync();
                 }
