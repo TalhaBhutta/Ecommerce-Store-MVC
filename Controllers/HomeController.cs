@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NetCuisine.Data;
@@ -18,10 +19,14 @@ namespace WebApplication5.Controllers
 
         private readonly NetCuisineContext _context;
 
-        public HomeController(ILogger<HomeController> logger, NetCuisineContext context)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+
+        public HomeController(ILogger<HomeController> logger, NetCuisineContext context, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task <IActionResult> Index()
@@ -34,16 +39,40 @@ namespace WebApplication5.Controllers
             return View(productViewModel);
         }
 
-        public async Task<IActionResult> Menu()
+        public async Task<IActionResult> ProductList()
         {
-            ProductViewModel productViewModel = new ProductViewModel();
-
-            productViewModel.Categories = await _context.ProductCategory.ToListAsync();
-            productViewModel.Products = await _context.Product.ToListAsync();
-
-            return View(productViewModel);
+            var AllProducts = await _context.Product.Include(p => p.ProductCategory).ToListAsync();
+            ViewBag.products = AllProducts;
+            return View(AllProducts);
         }
+        public async Task<IActionResult> ProductDetails(int? id)
+        {
 
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var productModel = await _context.Product
+                .Include(p => p.ProductCategory)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (productModel == null)
+            {
+                return NotFound();
+            }
+            ProductsListDetailViewModel productsListDetailViewModel = new ProductsListDetailViewModel();
+            productsListDetailViewModel.Id = productModel.Id;
+            productsListDetailViewModel.Description = productModel.Description;
+            productsListDetailViewModel.Picture = productModel.Picture;
+            productsListDetailViewModel.Name = productModel.Name;
+            productsListDetailViewModel.Price = productModel.Price;
+            productsListDetailViewModel.ProductCategoryID = productModel.ProductCategoryID;
+
+            var AllProducts = await _context.Product.Include(p => p.ProductCategory).ToListAsync();
+            productsListDetailViewModel.Products = AllProducts;
+
+            return View(productsListDetailViewModel);
+        }
         public async Task<IActionResult> ProductDetail(int? id)
         {
             if (id == null)

@@ -38,6 +38,7 @@ namespace WebApplication5
                Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
 
             services.AddMvc();
+            services.AddSession();
             //Add services to the container.
             var connectionString = Configuration.GetConnectionString("NetCuisineContextConnection");
             services.AddDbContext<NetCuisineContext>(options =>
@@ -68,7 +69,7 @@ namespace WebApplication5
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

@@ -6,27 +6,24 @@ using System.Threading.Tasks;
 
 namespace NetCuisine.Services
 {
-    public interface IUserService
+    public interface ICookieService
     {
-        Task<NetCuisineUser> GetCurrentUserAsync();
-        
+        public Task SetAsync(string key, string value, int? expireTime);
+        public void Remove(string key);
+        public string Get(string key);
     }
-    public class UserService : IUserService
+    public class CookieService 
     {
         private readonly UserManager<NetCuisineUser> _userManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
       
-        public UserService(UserManager<NetCuisineUser> userManager, IHttpContextAccessor httpContextAccessor)
+        public CookieService(UserManager<NetCuisineUser> userManager, IHttpContextAccessor httpContextAccessor)
         {
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public Task<NetCuisineUser> GetCurrentUserAsync()
-        {
-            
-            throw new System.NotImplementedException();
-        }
+       
     }
 }
