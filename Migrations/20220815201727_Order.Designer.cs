@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetCuisine.Data;
 
 namespace NetCuisine.Migrations
 {
     [DbContext(typeof(NetCuisineContext))]
-    partial class NetCuisineContextModelSnapshot : ModelSnapshot
+    [Migration("20220815201727_Order")]
+    partial class Order
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -243,13 +245,10 @@ namespace NetCuisine.Migrations
                     b.Property<string>("OrderItems")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("OrderTotal")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Orderstatus")
+                    b.Property<string>("OrderTotal")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PaymentMethod")
+                    b.Property<string>("Orderstatus")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
