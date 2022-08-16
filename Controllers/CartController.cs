@@ -8,6 +8,7 @@ using NetCuisine.Data;
 using NetCuisine.Helpers;
 using NetCuisine.Models;
 using NetCuisine.Services;
+using NetCuisine.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,13 +37,31 @@ namespace NetCuisine.Controllers
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             List<Item> cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
             List<Item> FinalCart = new List<Item>();
-            foreach (Item item in cart)
+            try
             {
-                if (item.UserId == userId)
+                if (cart != null)
                 {
-                    FinalCart.Add(item);
+                    foreach (Item item in cart)
+                    {
+                        if (item.UserId == userId)
+                        {
+                            FinalCart.Add(item);
+                        }
+                    }
+                    ViewBag.cart = FinalCart;
+                    ViewBag.total = FinalCart.Sum(item => item.Product.Price * item.Quantity);
                 }
+                else
+                {
+                    ViewBag.cart = new List<Item>();
+                }
+
             }
+            catch (Exception)
+            {
+               
+            }
+
             //for (int i = 0; i < cart.Count; i++)
             //{
             //    if (cart[i].UserId == userId)
@@ -50,8 +69,7 @@ namespace NetCuisine.Controllers
             //        FinalCart.Add(cart[i]);
             //    }
             //}
-            ViewBag.cart = FinalCart;
-            ViewBag.total = FinalCart.Sum(item => item.Product.Price * item.Quantity);
+
 
             return View();
         }
@@ -162,16 +180,24 @@ namespace NetCuisine.Controllers
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             List<Item> cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
             List<Item> FinalCart = new List<Item>();
-            foreach (Item item in cart)
+            if(cart != null)
             {
-                if (item.UserId == userId)
+                foreach (Item item in cart)
                 {
-                    FinalCart.Add(item);
+                    if (item.UserId == userId)
+                    {
+                        FinalCart.Add(item);
+                    }
                 }
-            }
 
-            ViewBag.cart = FinalCart;
-            ViewBag.total = FinalCart.Sum(item => item.Product.Price * item.Quantity);
+                ViewBag.cart = FinalCart;
+                ViewBag.total = FinalCart.Sum(item => item.Product.Price * item.Quantity);
+            }
+            else
+            {
+                ViewBag.cart = new List<Item>();
+            }
+            
             return View();
         }
 
@@ -194,6 +220,8 @@ namespace NetCuisine.Controllers
                 if (item.UserId == userId)
                 {
                     order.OrderItems += (separator + item.Product.Name);
+                    order.OrderItemsPrice += (separator + item.Product.Price);
+                    order.OrderItemsQuantity += (separator + item.Quantity);
                     FinalCart.Add(item);
                     separator = ",";
                     int index = isExist(item.Product.Id);
@@ -213,10 +241,11 @@ namespace NetCuisine.Controllers
             {
                 order.OrderTotal += 100;
             }
+            order.DateTime = DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss");
             _context.Add(order);
             await _context.SaveChangesAsync();
             SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", SessionCart);
-            return RedirectToAction("Thanks");
+            return RedirectToAction("Thanks", new { id = order.Id });
         }
         [Route("remove/{id}")]
         public IActionResult Remove(int id)
@@ -227,10 +256,88 @@ namespace NetCuisine.Controllers
             SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
             return RedirectToAction("Index");
         }
-        [Route("Thanks")]
-        public IActionResult Thanks()
+        [Route("Thanks/{id}")]
+        public async Task<IActionResult> ThanksAsync(int id)
         {
-            return View();
+            OrderCartViewModel orderCart = new OrderCartViewModel();
+            var Order = await _context.Order
+               .FirstOrDefaultAsync(m => m.Id == id);
+            orderCart.Orderstatus = Order.Orderstatus;
+            orderCart.Province = Order.Province;
+            orderCart.City = Order.City;
+            orderCart.Address = Order.Address;
+            orderCart.Phone = Order.Phone;
+            orderCart.Email = Order.Email;
+            orderCart.OrderTotal = Order.OrderTotal;
+            orderCart.PaymentMethod = Order.PaymentMethod;
+            orderCart.Name = Order.Name;
+            orderCart.DateTime = Order.DateTime;
+
+
+            List<OrderItem> ListorderItem = new List<OrderItem>();
+
+            var OrderItemsName = Order.OrderItems.Split(",");
+            var OrderItemsPrice = Order.OrderItemsPrice.Split(",");
+            var OrderItemsQuantity = Order.OrderItemsQuantity.Split(",");
+            for (int i = 0; i < OrderItemsName.Length; i++)
+            {
+                OrderItem orderItem = new OrderItem();
+                orderItem.ItemName = OrderItemsName[i];
+                orderItem.ItemQuantity = Convert.ToInt32(OrderItemsQuantity[i]);
+                orderItem.ItemPrice = Convert.ToDecimal(OrderItemsPrice[i]);
+
+                ListorderItem.Add(orderItem);
+            }
+
+            orderCart.OrderItems = ListorderItem;
+
+            return View(orderCart);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [Route("OrderList")]
+        public async Task<IActionResult> OrderList()
+        {
+            return View(await _context.Order.ToListAsync());
+        }
+
+        [Authorize(Roles = "Admin")]
+        [Route("UpdateStatus")]
+        [HttpPost]
+        public async Task<IActionResult> UpdateStatus(int? OrderID, string OrderStatus)
+        {
+
+            if (OrderID == null)
+            {
+                return NotFound();
+            }
+
+            var orderModel = await _context.Order.FindAsync(OrderID);
+            if (orderModel == null)
+            {
+                return NotFound();
+            }
+            orderModel.Orderstatus = OrderStatus;
+
+            try
+            {
+                _context.Update(orderModel);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!OrderModelExists(orderModel.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return RedirectToAction("OrderList");
+
         }
 
         private int isExist(int id)
@@ -248,6 +355,11 @@ namespace NetCuisine.Controllers
                 }
             }
             return -1;
+        }
+
+        private bool OrderModelExists(int id)
+        {
+            return _context.Order.Any(e => e.Id == id);
         }
     }
 }

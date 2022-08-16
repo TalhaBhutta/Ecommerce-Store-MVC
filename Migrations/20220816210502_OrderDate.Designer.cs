@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetCuisine.Data;
 
 namespace NetCuisine.Migrations
 {
     [DbContext(typeof(NetCuisineContext))]
-    partial class NetCuisineContextModelSnapshot : ModelSnapshot
+    [Migration("20220816210502_OrderDate")]
+    partial class OrderDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -1,15 +1,11 @@
-﻿using System;
+﻿using NetCuisine.Models;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace NetCuisine.Models
+namespace NetCuisine.ViewModels
 {
-    public class OrderModel
+    public class OrderCartViewModel
     {
-        [Key]
         public int Id { get; set; }
-        public string DateTime { get; set; }
         public string Name { get; set; }
         public string UserId { get; set; }
         public string Email { get; set; }
@@ -18,10 +14,9 @@ namespace NetCuisine.Models
         public string City { get; set; }
         public string Province { get; set; }
         public string PaymentMethod { get; set; }
-        public string OrderItems { get; set; }
-        public string OrderItemsPrice { get; set; }
-        public string OrderItemsQuantity { get; set; }
         public decimal OrderTotal { get; set; }
         public string Orderstatus { get; set; }
+        public List<OrderItem> OrderItems { get; set; }
+        public string DateTime { get; internal set; }
     }
 }
