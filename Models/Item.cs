@@ -1,5 +1,6 @@
 ﻿namespace NetCuisine.Models
 {
+    
     public class Item
     {
         public ProductModel Product { get; set; }

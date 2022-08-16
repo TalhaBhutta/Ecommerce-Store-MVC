@@ -57,7 +57,7 @@ namespace NetCuisine.Controllers
         }
 
         [Route("buy/{id}")]
-        public async Task<IActionResult> BuyAsync(int id)
+        public IActionResult BuyAsync(int id)
         {
             var ID = Convert.ToInt32(id);
 
@@ -113,6 +113,111 @@ namespace NetCuisine.Controllers
             return RedirectToAction("Index");
         }
 
+        [Route("Quantity/{id}")]
+        public IActionResult Quantity(int id, string area)
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            List<Item> items = new List<Item>();
+            List<Item> cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+            List<Item> FinalCart = new List<Item>();
+            foreach (Item item in cart)
+            {
+                if (item.Product.Id == id)
+                {
+                    if (area == "Increase")
+                    {
+                        item.Quantity++;
+                    }
+                    else if (area == "Decrease")
+                    {
+                        if (item.Quantity > 1)
+                        {
+                            item.Quantity--;
+                        }
+                    }
+
+                }
+                if (item.UserId == userId)
+                {
+                    FinalCart.Add(item);
+                }
+
+            }
+            //for (int i = 0; i < cart.Count; i++)
+            //{
+            //    if (cart[i].UserId == userId)
+            //    {
+            //        FinalCart.Add(cart[i]);
+            //    }
+            //}
+            ViewBag.cart = FinalCart;
+            ViewBag.total = FinalCart.Sum(item => item.Product.Price * item.Quantity);
+            SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+            return RedirectToAction("Index");
+        }
+
+        [Route("checkout")]
+        public ActionResult CheckOut()
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            List<Item> cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+            List<Item> FinalCart = new List<Item>();
+            foreach (Item item in cart)
+            {
+                if (item.UserId == userId)
+                {
+                    FinalCart.Add(item);
+                }
+            }
+
+            ViewBag.cart = FinalCart;
+            ViewBag.total = FinalCart.Sum(item => item.Product.Price * item.Quantity);
+            return View();
+        }
+
+        [Route("checkout")]
+        [HttpPost]
+        public async Task<ActionResult> CheckOutAsync(OrderModel order)
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string separator = "";
+            order.UserId = userId;
+            order.Orderstatus = "In Progress";
+
+            List<Item> cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+            List<Item> SessionCart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+            List<Item> FinalCart = new List<Item>();
+            List<int> SessionIndex = new List<int>();
+
+            foreach (Item item in cart)
+            {
+                if (item.UserId == userId)
+                {
+                    order.OrderItems += (separator + item.Product.Name);
+                    FinalCart.Add(item);
+                    separator = ",";
+                    int index = isExist(item.Product.Id);
+                    SessionIndex.Add(index);
+                }
+            }
+            SessionIndex.Sort();
+            SessionIndex.Reverse();
+            foreach (int index in SessionIndex)
+            {
+                SessionCart.RemoveAt(index);
+            }
+
+            ViewBag.cart = FinalCart;
+            order.OrderTotal = FinalCart.Sum(item => item.Product.Price * item.Quantity);
+            if (order.PaymentMethod == "Cash on Delivery")
+            {
+                order.OrderTotal += 100;
+            }
+            _context.Add(order);
+            await _context.SaveChangesAsync();
+            SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", SessionCart);
+            return RedirectToAction("Thanks");
+        }
         [Route("remove/{id}")]
         public IActionResult Remove(int id)
         {
@@ -122,6 +227,11 @@ namespace NetCuisine.Controllers
             SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
             return RedirectToAction("Index");
         }
+        [Route("Thanks")]
+        public IActionResult Thanks()
+        {
+            return View();
+        }
 
         private int isExist(int id)
         {
@@ -129,7 +239,7 @@ namespace NetCuisine.Controllers
             List<Item> cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
             for (int i = 0; i < cart.Count; i++)
             {
-                if(userId == cart[i].UserId)
+                if (userId == cart[i].UserId)
                 {
                     if (cart[i].Product.Id == id)
                     {
