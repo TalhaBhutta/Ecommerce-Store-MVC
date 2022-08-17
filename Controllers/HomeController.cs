@@ -67,6 +67,7 @@ namespace WebApplication5.Controllers
             productsListDetailViewModel.Name = productModel.Name;
             productsListDetailViewModel.Price = productModel.Price;
             productsListDetailViewModel.ProductCategoryID = productModel.ProductCategoryID;
+            productsListDetailViewModel.Quantity = 1;
 
             var AllProducts = await _context.Product.Include(p => p.ProductCategory).ToListAsync();
             productsListDetailViewModel.Products = AllProducts;

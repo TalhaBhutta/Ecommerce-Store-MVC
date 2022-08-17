@@ -172,12 +172,70 @@ a:not([href]):not([class]):hover {
   text-decoration: none;
 }
 
+
+.sidebar1 {
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    background-color: #f1f1f1;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+}
+
+    .sidebar1 a {
+        display: block;
+        color: black;
+        padding: 16px;
+        text-decoration: none;
+    }
+
+        .sidebar1 a.active {
+            background-color: #04AA6D;
+            color: white;
+        }
+
+        .sidebar1 a:hover:not(.active) {
+            background-color: #555;
+            color: white;
+        }
+
+div.content1 {
+    margin-left: 200px;
+    padding: 1px 16px;
+    height: 1000px;
+}
+
+@media screen and (max-width: 700px) {
+    .sidebar1 {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+        .sidebar1 a {
+            float: left;
+        }
+
+    div.content1 {
+        margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .sidebar1 a {
+        text-align: center;
+        float: none;
+    }
+}
+
+
 pre,
 code,
 kbd,
 samp {
-  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: 1em;
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 1em;
 }
 
 pre {

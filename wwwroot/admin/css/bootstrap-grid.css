@@ -15,6 +15,46 @@ html {
   box-sizing: inherit;
 }
 
+.containerAdmin {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@media (min-width: 576px) {
+    .containerAdmin {
+        max-width: 540px;
+    }
+}
+
+@media (min-width: 768px) {
+    .containerAdmin {
+        max-width: 720px;
+    }
+}
+
+@media (min-width: 992px) {
+    .containerAdmin {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .containerAdmin {
+        max-width: 1140px;
+    }
+}
+
+.containerAdmin-fluid {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
 .container,
 .container-fluid,
 .container-sm,

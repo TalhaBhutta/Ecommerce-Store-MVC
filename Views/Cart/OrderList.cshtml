@@ -3,10 +3,8 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+
+<table class="table table-striped">
     <thead>
         <tr>
             <th>
@@ -80,19 +78,22 @@
                     @Html.DisplayFor(modelItem => item.OrderTotal)
                 </td>
                 <td>
-                    @*<div class="btn-group">
-                <button type="button" class="btn btn-danger">Action</button>
-                <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                <span class="visually-hidden">Toggle Dropdown</span>
-                </button>
-                <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Separated link</a></li>
-                </ul>
-                </div>*@
+                    @if (item.Orderstatus == "Completed")
+                    {
+                        <button type="button" class="btn btn-success">@Html.DisplayFor(modelItem => item.Orderstatus)</button>
+                    }
+                    else if (item.Orderstatus == "In Progress")
+                    {
+                        <button type="button" class="btn btn-warning">@Html.DisplayFor(modelItem => item.Orderstatus)</button>
+                    }
+                    else if (item.Orderstatus == "Cancelled")
+                    {
+                        <button type="button" class="btn btn-danger">@Html.DisplayFor(modelItem => item.Orderstatus)</button>
+                    }
+                    
+                    
+                </td>
+                <td>
                     <form asp-action="UpdateStatus" method="post">
                         <select name="OrderStatus" class="form-control">
                             <option>In Progress</option>
@@ -101,15 +102,8 @@
                         </select>
                         <input type="hidden" name="OrderID" value="@item.Id">
 
-                        <button type="submit">Update</button>
+                        <button class="btn btn-info" type="submit">Update</button>
                     </form>
-
-                    @Html.DisplayFor(modelItem => item.Orderstatus)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
         }

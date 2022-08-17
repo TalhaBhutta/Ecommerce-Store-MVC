@@ -75,7 +75,7 @@ namespace NetCuisine.Controllers
         }
 
         [Route("buy/{id}")]
-        public IActionResult BuyAsync(int id)
+        public IActionResult BuyAsync(int id, string area)
         {
             var ID = Convert.ToInt32(id);
 
@@ -93,7 +93,15 @@ namespace NetCuisine.Controllers
             if (SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart") == null)
             {
                 List<Item> cart = new List<Item>();
-                cart.Add(new Item { Product = _context.Product.Include(p => p.ProductCategory).FirstOrDefault(m => m.Id == ID), Quantity = 1, UserId = userId });
+                if (area == null)
+                {
+                    cart.Add(new Item { Product = _context.Product.Include(p => p.ProductCategory).FirstOrDefault(m => m.Id == ID), Quantity = 1, UserId = userId });
+                }
+                else
+                {
+                    cart.Add(new Item { Product = _context.Product.Include(p => p.ProductCategory).FirstOrDefault(m => m.Id == ID), Quantity = (int)Convert.ToInt64(area), UserId = userId });
+                }
+                
                 SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
                 //foreach (var i in cart)
                 //{

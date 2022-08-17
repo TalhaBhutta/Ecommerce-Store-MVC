@@ -3,21 +3,56 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WebApplication5</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="~/assets/adminNav/css/style.css">
+    <title>@ViewData["Title"] - Net Cuisine</title>
 
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/sidebar/fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="~/sidebar/css/owl.carousel.min.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/sidebar/css/bootstrap.min.css">
+
+    <!-- Style -->
+    <link rel="stylesheet" href="~/sidebar/css/style.css">
 </head>
 <body>
-    <div class="wrapper d-flex align-items-stretch">
-        <nav id="sidebar">
-            <div class="p-4 pt-5">
-                <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(~/assets/adminNav/images/logo.jpg);"></a>
+    <aside class="sidebar">
+        <div class="toggle">
+            <a href="#" class="burger js-menu-toggle" data-toggle="collapse" data-target="#main-navbar">
+                <span></span>
+            </a>
+        </div>
+        <div class="side-inner">
+
+            <div class="profile">
+                <img src="~/img/cat-3.jpg" alt="Image" class="img-fluid">
+                <h3 class="name">Net Cuisine</h3>
+                <span class="country">Multan, Pakistan</span>
+            </div>
+@*
+            <div class="counter d-flex justify-content-center">
+                <!-- <div class="row justify-content-center"> -->
+                <div class="col">
+                    <strong class="number">892</strong>
+                    <span class="number-label">Posts</span>
+                </div>
+                <div class="col">
+                    <strong class="number">22.5k</strong>
+                    <span class="number-label">Followers</span>
+                </div>
+                <div class="col">
+                    <strong class="number">150</strong>
+                    <span class="number-label">Following</span>
+                </div>
+                <!-- </div> -->
+            </div>*@
+            <div class="nav-menu">
                 <ul class="list-unstyled components mb-5">
                     <li>
                         <a asp-action="Index" asp-controller="Home">Home</a>
@@ -49,30 +84,31 @@
                         </ul>
                     </li>
                 </ul>
-
             </div>
-        </nav>
-
-        <!-- Page Content  -->
-        <div id="content" class="p-4 p-md-5">
-
-            <div style="max-width:100%" class="container">
-                <main role="main" class="pb-3">
-                    @RenderBody()
-                </main>
-            </div>
-            <footer class="border-top footer text-muted">
-                <div class="container">
-                    &copy; 2022 - WebApplication5 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                </div>
-            </footer>
+          @*  <div class="nav-menu">
+                <ul>
+                    <li class="active"><a href="#"><span class="icon-home mr-3"></span>Feed</a></li>
+                    <li><a href="#"><span class="icon-search2 mr-3"></span>Explore</a></li>
+                    <li><a href="#"><span class="icon-notifications mr-3"></span>Notifications</a></li>
+                    <li><a href="#"><span class="icon-location-arrow mr-3"></span>Direct</a></li>
+                    <li><a href="#"><span class="icon-pie-chart mr-3"></span>Stats</a></li>
+                    <li><a href="#"><span class="icon-sign-out mr-3"></span>Sign out</a></li>
+                </ul>
+            </div>*@
         </div>
+
+    </aside>
+
+    <div style="max-width:93%" class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
     </div>
 
-    <script src="~/assets/adminNav/js/jquery.min.js"></script>
-    <script src="~/assets/adminNav/js/popper.js"></script>
-    <script src="~/assets/adminNav/js/bootstrap.min.js"></script>
-    <script src="~/assets/adminNav/js/main.js"></script>
+    <script src="~/sidebar/js/jquery-3.3.1.min.js"></script>
+    <script src="~/sidebar/js/popper.min.js"></script>
+    <script src="~/sidebar/js/bootstrap.min.js"></script>
+    <script src="~/sidebar/js/main.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
