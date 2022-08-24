@@ -37,26 +37,28 @@
 
                     <div class="input-group quantity mr-3" style="width: 130px;">
                         <div class="input-group-btn">
-                            <button class="btn btn-primary btn-minus">
+                            <button id="btnMinus" class="btn btn-primary btn-minus">
                                 <i class="fa fa-minus"></i>
                             </button>
                         </div>
 
-                        <input type="text" class="form-control bg-secondary border-0 text-center" value="@Model.Quantity">
-                        <input type="hidden" name="id" value="@Model.Id" />
+                        <input id="quant" type="text" class="form-control bg-secondary border-0 text-center" value="1">
+
 
                         <div class="input-group-btn">
-                            <button class="btn btn-primary btn-plus">
+                            <button id="btnPlus" class="btn btn-primary btn-plus">
                                 <i class="fa fa-plus"></i>
                             </button>
                         </div>
                     </div>
-                    
-                    <a class="btn btn-primary px-3" asp-area="@Model.Quantity" asp-controller="cart" asp-action="buy" asp-route-id="@Model.Id">
+                    <form asp-action="Buy" asp-controller="cart"  method="post">
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <input type="hidden" id="quantity" name="quantity" />
+                        <input class="btn btn-primary px-3" type="submit">
                         <i class="fa fa-shopping-cart mr-1"></i> Add To
                         Cart
-                    </a>
 
+                    </form>
 
                 </div>
                 <div class="d-flex pt-2">
@@ -128,3 +130,13 @@
     </div>
 </div>
 <!-- Products End -->
+
+<script>
+    $(document).ready(function() {
+        $("#btnPlus").click(function() {
+            var str = $("#quant").val();
+            $("#quantity").val(str);
+            
+        });
+    });
+</script>

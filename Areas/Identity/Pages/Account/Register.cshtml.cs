@@ -97,7 +97,7 @@ namespace NetCuisine.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new NetCuisineUser { UserName = Input.Name, Email = Input.Email, Phone=Input.Phone, Role=Input.Role };
+                var user = new NetCuisineUser { UserName = Input.Email, Email = Input.Email, Phone=Input.Phone, Role=Input.Role };
                 
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)

@@ -74,42 +74,29 @@ namespace NetCuisine.Controllers
             return View();
         }
 
-        [Route("buy/{id}")]
-        public IActionResult BuyAsync(int id, string area)
+        
+        public IActionResult BuyAsync(int id, int? quantity)
         {
             var ID = Convert.ToInt32(id);
 
             ProductModel productModel = new ProductModel();
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
-            //var userNames = User.FindFirstValue(ClaimTypes.Name); // will give the user's userName
-
-            //var applicationUser = await _userManager.GetUserAsync(User);
-            //string userEmail = applicationUser?.Email;
-            //string value = userId + "_";
-            //string key = "key";
-            //CookieOptions option = new CookieOptions();
-            //option.Expires = DateTime.Now.AddMinutes(1);
+           
 
             if (SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart") == null)
             {
                 List<Item> cart = new List<Item>();
-                if (area == null)
+                if (quantity == null)
                 {
                     cart.Add(new Item { Product = _context.Product.Include(p => p.ProductCategory).FirstOrDefault(m => m.Id == ID), Quantity = 1, UserId = userId });
                 }
                 else
                 {
-                    cart.Add(new Item { Product = _context.Product.Include(p => p.ProductCategory).FirstOrDefault(m => m.Id == ID), Quantity = (int)Convert.ToInt64(area), UserId = userId });
+                    cart.Add(new Item { Product = _context.Product.Include(p => p.ProductCategory).FirstOrDefault(m => m.Id == ID), Quantity = (int)quantity, UserId = userId });
                 }
                 
                 SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
-                //foreach (var i in cart)
-                //{
-                //    value += i.Product.Id +",";
-                //    value += i.Product.Price + ",";
-                //    value += i.Quantity + ",";
-
-                //}
+            
             }
             else
             {
@@ -121,15 +108,18 @@ namespace NetCuisine.Controllers
                 }
                 else
                 {
-                    cart.Add(new Item { Product = _context.Product.Include(p => p.ProductCategory).FirstOrDefault(m => m.Id == ID), Quantity = 1, UserId = userId });
+                    if (quantity == null)
+                    {
+                        cart.Add(new Item { Product = _context.Product.Include(p => p.ProductCategory).FirstOrDefault(m => m.Id == ID), Quantity = 1, UserId = userId });
+                    }
+                    else
+                    {
+                        cart.Add(new Item { Product = _context.Product.Include(p => p.ProductCategory).FirstOrDefault(m => m.Id == ID), Quantity = (int)quantity, UserId = userId });
+                    }
+                    
                 }
                 SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
-                //foreach (var i in cart)
-                //{
-                //    value += i.Product.Id + ",";
-                //    value += i.Product.Price + ",";
-                //    value += i.Quantity + ",";
-                //}
+       
             }
 
 
@@ -139,49 +129,7 @@ namespace NetCuisine.Controllers
             return RedirectToAction("Index");
         }
 
-        [Route("Quantity/{id}")]
-        public IActionResult Quantity(int id, string area)
-        {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            List<Item> items = new List<Item>();
-            List<Item> cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
-            List<Item> FinalCart = new List<Item>();
-            foreach (Item item in cart)
-            {
-                if (item.Product.Id == id)
-                {
-                    if (area == "Increase")
-                    {
-                        item.Quantity++;
-                    }
-                    else if (area == "Decrease")
-                    {
-                        if (item.Quantity > 1)
-                        {
-                            item.Quantity--;
-                        }
-                    }
-
-                }
-                if (item.UserId == userId)
-                {
-                    FinalCart.Add(item);
-                }
-
-            }
-            //for (int i = 0; i < cart.Count; i++)
-            //{
-            //    if (cart[i].UserId == userId)
-            //    {
-            //        FinalCart.Add(cart[i]);
-            //    }
-            //}
-            ViewBag.cart = FinalCart;
-            ViewBag.total = FinalCart.Sum(item => item.Product.Price * item.Quantity);
-            SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
-            return RedirectToAction("Index");
-        }
-
+       
         [Route("checkout")]
         public ActionResult CheckOut()
         {

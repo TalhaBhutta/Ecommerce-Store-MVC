@@ -25,7 +25,6 @@ namespace NetCuisine.Data
             // Add your customizations after calling base.OnModelCreating(builder);
         }
 
-        public DbSet<SignUpModel> signUp { get; set; }
         public DbSet<ProductCategoryModel> ProductCategory { get; set; }
         public DbSet<ProductModel> Product { get; set; }
         public DbSet<OrderModel> Order { get; set; }
