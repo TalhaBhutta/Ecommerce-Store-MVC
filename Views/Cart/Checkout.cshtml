@@ -25,7 +25,10 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="col-md-6 form-group">
                             <label asp-for="Name"></label>
-                            <input asp-for="Name" class="form-control" />
+                            <input asp-for="Name" class="form-control" pattern="[A-Za-z]+" title="Only Text Allowed" required />
+                            <div class="invalid-feedback">
+                                Please enter a message in the textarea.
+                            </div>
                             <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
                         <div style="display:none" class="col-md-6 form-group">
@@ -33,27 +36,27 @@
                         </div>
                         <div class="col-md-6 form-group">
                             <label asp-for="Email"></label>
-                            <input asp-for="Email" class="form-control" />
+                            <input asp-for="Email" class="form-control" type="email" required />
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                         <div class="col-md-6 form-group">
                             <label asp-for="Phone"></label>
-                            <input asp-for="Phone" class="form-control" />
+                            <input asp-for="Phone" placeholder="123-45-678" class="form-control" pattern="[0-9]+" title= "Only Numbers Allowed " required />
                             <span asp-validation-for="Phone" class="text-danger"></span>
                         </div>
                         <div class="col-md-6 form-group">
                             <label asp-for="Address"></label>
-                            <input asp-for="Address" class="form-control" />
+                            <input asp-for="Address" class="form-control" required />
                             <span asp-validation-for="Address" class="text-danger"></span>
                         </div>
                         <div class="col-md-6 form-group">
                             <label asp-for="City"></label>
-                            <input asp-for="City" class="form-control" />
+                            <input asp-for="City" class="form-control" required />
                             <span asp-validation-for="City" class="text-danger"></span>
                         </div>
                         <div class="col-md-6 form-group">
                             <label asp-for="Province"></label>
-                            <input asp-for="Province" class="form-control" />
+                            <input asp-for="Province" class="form-control" required />
                             <span asp-validation-for="Province" class="text-danger"></span>
                         </div>
                     </div>
@@ -83,21 +86,18 @@
                 <div class="mb-5">
                     <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Payment</span></h5>
                     <div class="bg-light p-30">
+                        
                         <div class="form-group">
                             <div class="custom-control custom-radio">
-                                 <input type="radio" asp-for="PaymentMethod" value="Cash on Delivery" />Cash on Delivery (Charges: Rs 100)
-                                @*<input type="radio" class="custom-control-input" value="Cash on Delivery" name="PaymentMethod" id="PaymentMethod">
-                                <label class="custom-control-label" >Cash on Delivery</label>*@
+                                <input type="radio" asp-for="PaymentMethod" value="Cash on Delivery" required />Cash on Delivery (Charges: Rs 100)
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="custom-control custom-radio">
-                                <input type="radio" asp-for="PaymentMethod" value="On Arrival" />On Arrival
-                           @*     <input type="radio" class="custom-control-input" value="On Arrival" name="PaymentMethod" id="PaymentMethod">
-                                <label class="custom-control-label" >On Arrival</label>*@
+                            <div class="custom-control custom-radio form-check">
+                                <input type="radio" asp-for="PaymentMethod" value="On Arrival" required />On Arrival
                             </div>
                         </div>
-                        <input class="btn btn-block btn-primary font-weight-bold py-3"  type="submit" value="Place Order"/>
+                        <input class="btn btn-block btn-primary font-weight-bold py-3" type="submit" value="Place Order" />
                     </div>
                 </div>
             </div>
