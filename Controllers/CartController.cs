@@ -257,6 +257,49 @@ namespace NetCuisine.Controllers
             return View(await _context.Order.ToListAsync());
         }
 
+        [Route("Quantity/{id}")]
+        public IActionResult Quantity(int id, string area)
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            List<Item> items = new List<Item>();
+            List<Item> cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+            List<Item> FinalCart = new List<Item>();
+            foreach (Item item in cart)
+            {
+                if (item.Product.Id == id)
+                {
+                    if (area == "Increase")
+                    {
+                        item.Quantity++;
+                    }
+                    else if (area == "Decrease")
+                    {
+                        if (item.Quantity > 1)
+                        {
+                            item.Quantity--;
+                        }
+                    }
+
+                }
+                if (item.UserId == userId)
+                {
+                    FinalCart.Add(item);
+                }
+
+            }
+            //for (int i = 0; i < cart.Count; i++)
+            //{
+            //    if (cart[i].UserId == userId)
+            //    {
+            //        FinalCart.Add(cart[i]);
+            //    }
+            //}
+            ViewBag.cart = FinalCart;
+            ViewBag.total = FinalCart.Sum(item => item.Product.Price * item.Quantity);
+            SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+            return RedirectToAction("Index");
+        }
+
         [Authorize(Roles = "Admin")]
         [Route("UpdateStatus")]
         [HttpPost]
