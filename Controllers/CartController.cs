@@ -8,6 +8,7 @@ using NetCuisine.Data;
 using NetCuisine.Helpers;
 using NetCuisine.Models;
 using NetCuisine.Services;
+using NetCuisine.Utilities;
 using NetCuisine.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -59,7 +60,7 @@ namespace NetCuisine.Controllers
             }
             catch (Exception)
             {
-               
+
             }
 
             //for (int i = 0; i < cart.Count; i++)
@@ -74,14 +75,14 @@ namespace NetCuisine.Controllers
             return View();
         }
 
-        
+
         public IActionResult BuyAsync(int id, int? quantity)
         {
             var ID = Convert.ToInt32(id);
 
             ProductModel productModel = new ProductModel();
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
-           
+
 
             if (SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart") == null)
             {
@@ -94,9 +95,9 @@ namespace NetCuisine.Controllers
                 {
                     cart.Add(new Item { Product = _context.Product.Include(p => p.ProductCategory).FirstOrDefault(m => m.Id == ID), Quantity = (int)quantity, UserId = userId });
                 }
-                
+
                 SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
-            
+
             }
             else
             {
@@ -116,10 +117,10 @@ namespace NetCuisine.Controllers
                     {
                         cart.Add(new Item { Product = _context.Product.Include(p => p.ProductCategory).FirstOrDefault(m => m.Id == ID), Quantity = (int)quantity, UserId = userId });
                     }
-                    
+
                 }
                 SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
-       
+
             }
 
 
@@ -129,14 +130,14 @@ namespace NetCuisine.Controllers
             return RedirectToAction("Index");
         }
 
-       
+
         [Route("checkout")]
         public ActionResult CheckOut()
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             List<Item> cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
             List<Item> FinalCart = new List<Item>();
-            if(cart != null)
+            if (cart != null)
             {
                 foreach (Item item in cart)
                 {
@@ -153,7 +154,7 @@ namespace NetCuisine.Controllers
             {
                 ViewBag.cart = new List<Item>();
             }
-            
+
             return View();
         }
 
@@ -257,6 +258,62 @@ namespace NetCuisine.Controllers
             return View(await _context.Order.ToListAsync());
         }
 
+
+        [Authorize(Roles = "Admin")]
+        [Route("OrderListAll")]
+        public async Task<IActionResult> OrderListAll(string sortOrder, string searchString, string currentFilter, int? pageNumber, int? pageSize)
+        {
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            var orders = from s in _context.Order
+                         select s;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                orders = orders.Where(s => s.Name.ToUpper().Contains(searchString.ToUpper())
+                                       || s.Email.ToUpper().Contains(searchString.ToUpper())
+                    || s.Orderstatus.ToUpper().Contains(searchString.ToUpper()));
+            }
+
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    orders = orders.OrderByDescending(s => s.Name);
+                    break;
+                case "Date":
+                    orders = orders.OrderBy(s => s.DateTime);
+                    break;
+                case "date_desc":
+                    orders = orders.OrderByDescending(s => s.DateTime);
+                    break;
+                default:
+                    orders = orders.OrderBy(s => s.Id);
+                    break;
+            }
+
+            if (pageSize == null)
+            {
+                pageSize = 10;
+            }
+
+            return View(await PaginatedList<OrderModel>.CreateAsync(orders.AsNoTracking(), pageNumber ?? 1, (int)pageSize));
+
+        }
+
         [Route("Quantity/{id}")]
         public IActionResult Quantity(int id, string area)
         {
@@ -335,7 +392,7 @@ namespace NetCuisine.Controllers
                 }
             }
 
-            return RedirectToAction("OrderList");
+            return RedirectToAction("OrderListAll");
 
         }
 

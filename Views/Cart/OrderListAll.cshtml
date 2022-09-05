@@ -1,0 +1,154 @@
+﻿
+@using NetCuisine.Utilities
+@model PaginatedList<NetCuisine.Models.OrderModel>
+
+@{
+    ViewData["Title"] = "OrderListAll";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<h2>OrderListAll</h2>
+
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Page Size
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" asp-action="OrderListAll" asp-route-pageSize="10">10</a>
+                <a class="dropdown-item" asp-action="OrderListAll" asp-route-pageSize="20">20</a>
+                <a class="dropdown-item" asp-action="OrderListAll" asp-route-pageSize="50">50</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <form asp-action="OrderListAll" method="get">
+            <div class="form-actions no-color">
+                <p>
+                    Find by name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+                    <input type="submit" value="Search" class="btn btn-info" /> |
+                    <a asp-action="OrderListAll">Back to Full List</a>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="OrderListAll" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Name</a>
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                <a asp-action="OrderListAll" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Date</a>
+            </th>
+            <th>
+                Status
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateTime)
+                </td>
+                <td>
+                    @if (item.Orderstatus == "Completed")
+                    {
+                        <button type="button" class="btn btn-success">@Html.DisplayFor(modelItem => item.Orderstatus)</button>
+                    }
+                    else if (item.Orderstatus == "In Progress")
+                    {
+                        <button type="button" class="btn btn-warning">@Html.DisplayFor(modelItem => item.Orderstatus)</button>
+                    }
+                    else if (item.Orderstatus == "Cancelled")
+                    {
+                        <button type="button" class="btn btn-danger">@Html.DisplayFor(modelItem => item.Orderstatus)</button>
+                    }
+                    
+                    
+                </td>
+                <td>
+                    <form asp-action="UpdateStatus" method="post">
+                        <select name="OrderStatus" class="form-control">
+                            <option>In Progress</option>
+                            <option>Completed</option>
+                            <option>Cancelled</option>
+                        </select>
+                        <input type="hidden" name="OrderID" value="@item.Id">
+
+                        <button class="btn btn-info" type="submit">Update</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+@*<h6>Page# @Model.PageIndex</h6>
+    <h6>All @Model.TotalPages</h6>*@
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item">
+            <a asp-action="OrderListAll"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-pageNumber="@(Model.PageIndex - 1)"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               class="btn page-link @prevDisabled">
+                Previous
+            </a>
+        </li>
+        @for (int i = 0; i < Model.TotalPages; i++)
+        {
+            <li class="page-item"><a class="page-link" name="pageNumber" asp-action="OrderListAll" asp-route-pageNumber="@(i+1)">@(i+1)</a></li>
+        }
+        <li class="page-item">
+            <a asp-action="OrderListAll"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-pageNumber="@(Model.PageIndex + 1)"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               class="btn page-link @nextDisabled">
+                Next
+            </a>
+        </li>
+    </ul>
+</nav>
+
+@*<a asp-action="Index"
+       asp-route-sortOrder="@ViewData["CurrentSort"]"
+       asp-route-pageNumber="@(Model.PageIndex - 1)"
+       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+       class="btn btn-default @prevDisabled">
+        Previous
+    </a>
+    <a asp-action="Index"
+       asp-route-sortOrder="@ViewData["CurrentSort"]"
+       asp-route-pageNumber="@(Model.PageIndex + 1)"
+       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+       class="btn btn-default @nextDisabled">
+        Next
+    </a>*@
+
