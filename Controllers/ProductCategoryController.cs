@@ -144,8 +144,8 @@ namespace NetCuisine.Controllers
 
                             }
                         }
+                        
                     }
-
                     _context.Update(productCategoryModel);
                     await _context.SaveChangesAsync();
                 }

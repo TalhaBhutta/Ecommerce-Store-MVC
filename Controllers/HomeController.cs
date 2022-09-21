@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NetCuisine.Data;
+using NetCuisine.Models;
+using NetCuisine.Utilities;
 using NetCuisine.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -34,16 +36,102 @@ namespace WebApplication5.Controllers
             ProductViewModel productViewModel = new ProductViewModel();
 
             productViewModel.Categories = await _context.ProductCategory.ToListAsync();
-            productViewModel.Products = await _context.Product.ToListAsync();
+
+            //var productCategoryId = (from ProductCategory in _context.ProductCategory
+            //                         where ProductCategory.Id == int.ID
+            //                         select ProductCategory.ProductCategoryId).SingleOrDefault();
+
+           // IQueryable<ProductModel> source = _context.Product;
+           // List<int> ss = new List<int>();
+
+           // foreach (ProductModel item in source)
+           // {
+           //     ss.Add(item.ProductCategoryID);
+           //     //Console.WriteLine("{0}: {1}", item.ProductName, item.UnitPrice);
+           // }
+
+           //var n = source.Count(x => x.ProductCategoryID == 7);
+            //var i = ss.Count(x => x == 7);
+            ////ss.Find(x => x.GetId() == "xy");
+            //productViewModel.ProductsCount = (List<ProductCount>)(from p in _context.Product
+            //                                                      group p by p.ProductCategoryID into g
+            //                                                      select new
+            //                                                      {
+            //                                                          Name = g.Key,
+            //                                                          Count = g.Count()
+            //                                                      });
+
+            //var NoOfProducts = from p in _context.Product
+            //                   group p by p.ProductCategoryID into g
+            //                   select new
+            //                   {
+            //                       Name = g.Key,
+            //                       Count = g.Count()
+            //                   };
+
+            //productViewModel.ProductsCount = new SelectList(NoOfProducts, "Name", "Count").ToList();
+
+            //ViewData["NoOfProducts"] = new SelectList(NoOfProducts, "Name", "Count");
+            //var total = _context.ProductCategory.Count(x => x.Id != null);
+            //productViewModel.Products = await _context.Product.ToListAsync();
+
+            productViewModel.Products = _context.Product.OrderByDescending(x => x.Id).ToList();
 
             return View(productViewModel);
         }
 
-        public async Task<IActionResult> ProductList()
+
+        public async Task<IActionResult> ProductList(string sortOrder, string searchString, string currentFilter, int? pageNumber, int? pageSize)
         {
-            var AllProducts = await _context.Product.Include(p => p.ProductCategory).ToListAsync();
-            ViewBag.products = AllProducts;
-            return View(AllProducts);
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            var AllProducts = from s in _context.Product
+                         select s;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                AllProducts = AllProducts.Where(s => s.Name.ToUpper().Contains(searchString.ToUpper()));
+                //|| s.Email.ToUpper().Contains(searchString.ToUpper())
+                /*|| s.Orderstatus.ToUpper().Contains(searchString.ToUpper())*/
+            }
+
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    AllProducts = AllProducts.OrderByDescending(s => s.Name);
+                    break;
+                case "Date":
+                    AllProducts = AllProducts.OrderBy(s => s.Price);
+                    break;
+                case "date_desc":
+                    AllProducts = AllProducts.OrderByDescending(s => s.ProductCategory);
+                    break;
+                default:
+                    AllProducts = AllProducts.OrderBy(s => s.Id);
+                    break;
+            }
+
+            if (pageSize == null)
+            {
+                pageSize = 10;
+            }
+
+            return View(await PaginatedList<ProductModel>.CreateAsync(AllProducts.AsNoTracking(), pageNumber ?? 1, (int)pageSize));
+
         }
         public async Task<IActionResult> ProductDetails(int? id)
         {

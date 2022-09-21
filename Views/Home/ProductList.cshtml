@@ -1,4 +1,5 @@
-﻿@model IEnumerable<NetCuisine.Models.ProductModel>
+﻿@using NetCuisine.Utilities
+@model PaginatedList<NetCuisine.Models.ProductModel>
 
 <!-- Breadcrumb Start -->
 <div class="container-fluid">
@@ -19,27 +20,91 @@
 
         <!-- Shop Product Start -->
         <div class="col-lg-12 col-md-12">
-            <div class="row pb-3">
-                @foreach (var Products in Model)
-                {
-                    <div class="col-lg-3 col-md-12 col-sm-12 pb-1 divView">
-                        <div class="product-item bg-light mb-3">
-                            <div class="product-img position-relative overflow-hidden">
-                                <img class="img-fluid w-100" src="../../uploadsPic/@Products.Picture" alt="">
-                                <div class="product-action">
-                                    <a class="btn btn-outline-dark btn-square" asp-controller="cart" asp-action="buy" asp-route-id="@Products.Id"><i class="fa fa-shopping-cart"></i></a>
-                                    <a class="btn btn-outline-dark btn-square" asp-controller="Home" asp-action="ProductDetails" asp-route-id="@Products.Id"><i class="fa fa-info-circle"></i></a>
-                                </div>
-                            </div>
-                            <div class="text-center py-4">
-                                <a class="h6 text-decoration-none text-truncate" href="">@Products.Name</a>
-                                <div class="d-flex align-items-center justify-content-center mt-2">
-                                    <h5>Rs @Products.Price</h5>
-                                </div>
-                            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Page Size
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" asp-action="ProductList" asp-route-pageSize="10">10</a>
+                            <a class="dropdown-item" asp-action="ProductList" asp-route-pageSize="20">20</a>
+                            <a class="dropdown-item" asp-action="ProductList" asp-route-pageSize="50">50</a>
+                            <a class="dropdown-item" asp-action="ProductList" asp-route-pageSize="100">100</a>
                         </div>
                     </div>
+                </div>
+                <div class="col-md-6">
+                    <form asp-action="ProductList" method="get">
+                        <div class="form-actions no-color">
+                            <p>
+                                Find by name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+                                <input type="submit" value="Search" class="btn btn-info" /> |
+                                <a asp-action="ProductList">Back to Full List</a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row pb-3">
+                <table class="table">
+                    <tbody>
+                        @foreach (var Products in Model)
+                        {
+                            <div class="col-lg-3 col-md-12 col-sm-12 pb-1 divView">
+                                <div class="product-item bg-light mb-3">
+                                    <div class="product-img position-relative overflow-hidden">
+                                        <img class="img-fluid w-100" src="../../uploadsPic/@Products.Picture" alt="">
+                                        <div class="product-action">
+                                            <a class="btn btn-outline-dark btn-square" asp-controller="cart" asp-action="buy" asp-route-id="@Products.Id"><i class="fa fa-shopping-cart"></i></a>
+                                            <a class="btn btn-outline-dark btn-square" asp-controller="Home" asp-action="ProductDetails" asp-route-id="@Products.Id"><i class="fa fa-info-circle"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="text-center py-4">
+                                        <a class="h6 text-decoration-none text-truncate" href="">@Products.Name</a>
+                                        <div class="d-flex align-items-center justify-content-center mt-2">
+                                            <h5>$@Products.Price</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </tbody>
+                </table>
+
+                @{
+                    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
                 }
+
+                @*<h6>Page# @Model.PageIndex</h6>
+                <h6>All @Model.TotalPages</h6>*@
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a asp-action="ProductList"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]"
+                               asp-route-pageNumber="@(Model.PageIndex - 1)"
+                               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                               class="btn page-link @prevDisabled">
+                                Previous
+                            </a>
+                        </li>
+                        @for (int i = 0; i < Model.TotalPages; i++)
+                        {
+                            <li class="page-item"><a class="page-link" name="pageNumber" asp-action="ProductList" asp-route-pageNumber="@(i+1)">@(i+1)</a></li>
+                        }
+                        <li class="page-item">
+                            <a asp-action="ProductList"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]"
+                               asp-route-pageNumber="@(Model.PageIndex + 1)"
+                               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                               class="btn page-link @nextDisabled">
+                                Next
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
         <!-- Shop Product End -->

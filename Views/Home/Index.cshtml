@@ -1,6 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Home";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int count = 0;
 }
 @model NetCuisine.ViewModels.ProductViewModel
 <!-- Carousel Start -->
@@ -107,7 +109,7 @@
                         </div>
                         <div class="flex-fill pl-3">
                             <h6>@ProductCategory.Name</h6>
-                            <small class="text-body">@Model.Products.Count() Products</small>
+                            <small class="text-body">@Model.Products.Count(x => x.ProductCategoryID == ProductCategory.Id) Products</small>
                         </div>
                     </div>
                 </a>
@@ -124,6 +126,10 @@
     <div class="row px-xl-5">
         @foreach (var Products in Model.Products)
         {
+            if(count == 8)
+            {
+                break;
+            }
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
             <div class="product-item bg-light mb-4">
                 <div class="product-img position-relative overflow-hidden">
@@ -141,11 +147,15 @@
                 </div>
             </div>
         </div>
+
+            count++;
         }
      
     </div>
 </div>
-<!-- Products End -->
+<div class="col-xs-12 text-center">
+    <a asp-controller="Home" asp-action="ProductList" class="btn btn-primary">All Products</a>
+</div>
 
 <!-- Offer Start -->
 <div class="container-fluid pt-5 pb-3">

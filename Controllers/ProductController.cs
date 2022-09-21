@@ -53,7 +53,7 @@ namespace NetCuisine.Controllers
         // GET: Product/Create
         public IActionResult Create()
         {
-            ViewData["ProductCategoryID"] = new SelectList(_context.ProductCategory, "Id", "Id");
+            ViewData["ProductCategoryID"] = new SelectList(_context.ProductCategory, "Id", "Name");
             return View();
         }
 
@@ -91,7 +91,7 @@ namespace NetCuisine.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductCategoryID"] = new SelectList(_context.ProductCategory, "Id", "Id", productModel.ProductCategoryID);
+            ViewData["ProductCategoryID"] = new SelectList(_context.ProductCategory, "Id", "Name", productModel.ProductCategoryID);
             return View(productModel);
         }
 
@@ -111,7 +111,7 @@ namespace NetCuisine.Controllers
             }
 
 
-            ViewData["ProductCategoryID"] = new SelectList(_context.ProductCategory, "Id", "Id", productModel.ProductCategoryID);
+            ViewData["ProductCategoryID"] = new SelectList(_context.ProductCategory, "Id", "Name", productModel.ProductCategoryID);
             return View(productModel);
         }
 
@@ -171,7 +171,7 @@ namespace NetCuisine.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductCategoryID"] = new SelectList(_context.ProductCategory, "Id", "Id", productModel.ProductCategoryID);
+            ViewData["ProductCategoryID"] = new SelectList(_context.ProductCategory, "Id", "Name", productModel.ProductCategoryID);
             return View(productModel);
         }
 
